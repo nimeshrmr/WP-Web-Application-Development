@@ -65,7 +65,7 @@ class WPWAF_Login{
 
           if (!in_array( 'administrator', (array) $user->roles ) ) {
               $active_status = '';
-              $active_status = get_user_meta( $user->data->ID, 'wpwa_activation_status', true );
+              $active_status = get_user_meta( $user->data->ID, 'wpwaf_activation_status', true );
 
               if ( 'inactive' == $active_status ) {
                   $user = new WP_Error( 'denied', __('<strong>ERROR</strong>: Please activate your account.','wpwaf' ) );
