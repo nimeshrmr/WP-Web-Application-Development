@@ -21,7 +21,10 @@ class WPWAF_Model_Topic {
         add_action( 'save_post', array( $this, 'save_topic_meta_data' ) );
         add_filter( 'post_updated_messages', array( $this, 'generate_topic_messages' ) );
         add_action( 'admin_notices', array( $this, 'topic_admin_notices' ) );
-        add_action( 'p2p_init', array( $this, 'join_topics_to_forums' ) );
+		
+		if ( defined( 'P2P_PLUGIN_VERSION' ) ) {
+			add_action( 'p2p_init', array( $this, 'join_topics_to_forums' ) );
+		}        
     }
 
     public function create_topics_post_type() {
@@ -111,7 +114,7 @@ class WPWAF_Model_Topic {
         global $post,$wpwaf;
 
         // Verify the nonce value for secure form submission
-        if ( !wp_verify_nonce($_POST['topic_meta_nonce'], 'wpwaf-topic-meta' ) ) {
+        if ( isset($_POST['topic_meta_nonce']) && !wp_verify_nonce($_POST['topic_meta_nonce'], 'wpwaf-topic-meta' ) ) {
              return $post->ID;
         }
 
@@ -120,7 +123,7 @@ class WPWAF_Model_Topic {
             return $post->ID;
         }
 
-        if ( $this->post_type == $_POST['post_type'] && current_user_can( 'edit_wpwaf_topics', $post->ID ) ) {
+        if ( isset($_POST['post_type']) && $this->post_type == $_POST['post_type'] && current_user_can( 'edit_wpwaf_topics', $post->ID ) ) {
 
             $sticky_status  = isset( $_POST['wpwaf_sticky_status'] ) ? sanitize_text_field( trim($_POST['wpwaf_sticky_status']) ) : '';
        
@@ -147,7 +150,7 @@ class WPWAF_Model_Topic {
                 update_post_meta( $post->ID, '_wpwaf_topic_sticky_status', $sticky_status );
             }
         } else {
-            return $post->ID;
+            return;
         }
     }
 
@@ -167,8 +170,10 @@ class WPWAF_Model_Topic {
 
     public function topic_admin_notices(){
         global $post;
+
         $this->temp_error_message = get_transient( $this->post_type."_error_message_$post->ID" );
         delete_transient( $this->post_type."_error_message_$post->ID" );
+
 
         if (!( $this->temp_error_message)){
             return;

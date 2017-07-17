@@ -21,7 +21,7 @@ class WPWAF_Login{
 		global $wpwaf_login_params;
         $errors = array();
 
-        if ( $_POST['wpwaf_login_submit'] ) {            
+        if ( isset($_POST['wpwaf_login_submit']) ) {            
 
             $username = isset ( $_POST['wpwaf_username'] ) ? $_POST['wpwaf_username'] : '';
             $password = isset ( $_POST['wpwaf_password'] ) ? $_POST['wpwaf_password'] : '';

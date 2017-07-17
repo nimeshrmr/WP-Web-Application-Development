@@ -97,7 +97,7 @@ class WPWAF_Model_Manager {
             // Customize the messages list 
             $messages[$post_type] = array(
                 0 => '', // Unused. Messages start at index 1.
-                1 => sprintf(__('%1$s updated. <a href="%2$s">View %3$s</a>', 'wpwaf' ),$singular_name, esc_url(get_permalink($post_ID)),singular_name),
+                1 => sprintf(__('%1$s updated. <a href="%2$s">View %3$s</a>', 'wpwaf' ),$singular_name, esc_url(get_permalink($post_ID)), $singular_name),
                 
                 2 => __('Custom field updated.', 'wpwaf' ),
                 
