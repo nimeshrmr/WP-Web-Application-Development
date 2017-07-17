@@ -79,7 +79,7 @@ class WPWAF_Registration{
                         exit;
                     }else{
                         update_user_meta( $user_id, 'wpwaf_payment_status', 'active' );
-                        wp_new_user_notification( $user_id, '', $activation_code );
+                        wpwaf_send_user_notification( $user_id, $user_pass, $activation_code );
                         $wpwaf_login_params['success_message'] = __('Registration completed successfully. Please check your email for activation link.','wpwaf');
                 
                     }
@@ -116,7 +116,7 @@ class WPWAF_Registration{
 
         if ( !empty($users) ) {
             $user_id = $users[0]->ID;
-            update_user_meta( $user_id, 'wpwa_activation_status', 'active' );
+            update_user_meta( $user_id, 'wpwaf_activation_status', 'active' );
             $message = __('Account activated successfully.','wpwaf');
         } else {
             $message = __('Invalid Activation Code','wpwaf');
