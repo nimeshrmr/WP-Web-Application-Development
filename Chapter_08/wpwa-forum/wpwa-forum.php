@@ -137,7 +137,7 @@ function wpwaf_verify_custom_restrictions($status,$visibility){
     $user_id = get_current_user_id();
 
     if($visibility == 'user_meta_field'){
-        $meta_value = get_user_meta($user_id, 'wpwa_activation_status'  , true);
+        $meta_value = get_user_meta($user_id, 'wpwaf_activation_status'  , true);
 
         if($meta_value == 'active'){
             $status = TRUE;
