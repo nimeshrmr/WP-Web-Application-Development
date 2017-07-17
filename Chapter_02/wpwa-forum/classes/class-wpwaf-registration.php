@@ -19,7 +19,7 @@ class WPWAF_Registration{
 	public function register_user(){
 		global $wpwaf_registration_params,$wpwaf_login_params;
 		
-		if ( $_POST['wpwaf_reg_submit'] ) {
+		if ( isset($_POST['wpwaf_reg_submit']) ) {
 
             $errors = array();
 
@@ -79,7 +79,7 @@ class WPWAF_Registration{
                         exit;
                     }else{
                         update_user_meta( $user_id, 'wpwaf_payment_status', 'active' );
-                        wp_new_user_notification( $user_id, '', $activation_code );
+                        wpwaf_send_user_notification( $user_id, $user_pass, $activation_code );
                         $wpwaf_login_params['success_message'] = __('Registration completed successfully. Please check your email for activation link.','wpwaf');
                 
                     }
